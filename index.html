@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ENEM - Linguagens e Português</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
+        <!-- Header -->
+        <header class="bg-indigo-600 text-white p-6 text-center">
+            <h1 class="text-2xl font-bold">Simulado ENEM: Linguagens & Português</h1>
+            <p id="progress-text" class="text-indigo-200 text-sm mt-1">Questão 1 de 10</p>
+        </header>
+
+        <!-- Quiz Container -->
+        <main class="p-6 sm:p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-8">
+                <h2 class="text-xl font-semibold mb-4 text-slate-700">Pronto para testar seus conhecimentos?</h2>
+                <p class="text-slate-500 mb-6">Este quiz contém 10 questões oficiais de Linguagens, Códigos e suas Tecnologias do ENEM. Responda individualmente e veja seu desempenho ao final!</p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-all cursor-pointer">
+                    Iniciar Quiz
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden">
+                <div id="question-text" class="text-base sm:text-lg font-medium text-slate-900 mb-6 leading-relaxed whitespace-pre-line"></div>
+                <div id="options-container" class="space-y-3"></div>
+
+                <div class="mt-8 flex justify-between items-center">
+                    <span id="feedback-msg" class="text-sm font-medium"></span>
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all cursor-pointer">
+                        Próxima Questão
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Simulado Concluído! 🎉</h2>
+                <p class="text-slate-600 mb-6">Você completou todas as questões de Português do ENEM.</p>
+                <div class="text-4xl font-extrabold text-indigo-600 mb-6" id="final-score">0/10</div>
+                <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-all cursor-pointer">
+                    Refazer Simulado
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "**Ainda os equívocos no combate aos estrangeirismos**\n\nPor que não se reconhece a existência de norma nas variedades populares? Para desqualificá-las? Por que só uma norma é reconhecida como norma e, não por acaso, a da elite?\n\nO texto aborda a linguagem como um campo de disputas e poder. As interrogações da autora são estratégias que conduzem ao convencimento do leitor de que:",
+                options: [
+                    { text: "a desvalorização das variedades linguísticas populares tem motivação social.", correct: true },
+                    { text: "as normas cultas e populares possuem o mesmo grau de prestígio acadêmico.", correct: false },
+                    { text: "o português do Brasil deve seguir rigorosamente as regras de Portugal.", correct: false },
+                    { text: "os gramáticos tradicionais defendem a igualdade entre todas as classes.", correct: false }
+                ]
+            },
+            {
+                question: "– Famigerado? [ ... ]\n– Famigerado é “inóxio”, é “célebre”, “notório”, “notável” ...\n– Vosmecê mal não veja em minha grossaria no não entender. Mais me diga: é desaforado? É caçoável? É de arrenegar? Farsância? Nome de ofensa?\n– Vilta nenhuma, nenhum doesto. São expressões neutras, de outros usos ...\n*ROSA, G. Famigerado.*\n\nNesse texto, a associação de vocábulos da língua portuguesa remete ao:",
+                options: [
+                    { text: "rigor gramatical absoluto exigido em documentos formais.", correct: false },
+                    { text: "grau de coloquialidade e variação na comunicação.", correct: true },
+                    { text: "desconhecimento total da escrita culta por falantes urbanos.", correct: false },
+                    { text: "uso exclusivo de termos arcaicos sem utilidade prática.", correct: false }
+                ]
+            },
+            {
+                question: "**Construindo uma irmandade da língua**\n\nA ideia de que a língua portuguesa é pertença de todos os seus falantes é hoje quase pacífica. Aliás, ao contrário da Commonwealth e da francofonia, a irmandade da língua portuguesa não tem um único centro ou voz dominante, e essa é precisamente uma das suas maiores virtudes.\n*AGUALUSA, J. E.*\n\nNesse texto, o termo \"Aliás\" articula dois enunciados, construindo para o segundo uma ideia de:",
+                options: [
+                    { text: "conclusão lógica extraída das premissas introduzidas.", correct: false },
+                    { text: "oposição direta aos argumentos apresentados anteriormente.", correct: false },
+                    { text: "acréscimo de fato comprobatório sobre a língua portuguesa.", correct: true },
+                    { text: "explicação detalhada de um conceito técnico complexo.", correct: false }
+                ]
+            },
+            {
+                question: "Assim, está nascendo dentro da língua portuguesa uma nova linguagem, a linguagem radiofônica. Como a dos engenheiros, como a dos gatunos, como a dos amantes, essa linguagem radiofônica tem suas características próprias determinadas por exigências ecológicas e técnicas.\n*ANDRADE, M.*\n\nMário de Andrade, ao se referir ao impacto do rádio, possibilita uma reflexão acerca:",
+                options: [
+                    { text: "a supremacia da linguagem literária sobre as demais.", correct: false },
+                    { text: "da necessidade de unificação de todas as gírias populares.", correct: false },
+                    { text: "do fim iminente da modalidade escrita formal no país.", correct: false },
+                    { text: "da relação entre o meio tecnológico e o contexto social de enunciação.", correct: true }
+                ]
+            },
+            {
+                question: "Passando por aqui para lembrar algumas palavras que nos infernizaram em 2023... Se você for proativo, vai achar que é o novo normal... O fato é que acho cringe essas falas fora da caixinha. Aliás, falar cringe já é meio cringe.\n*CASTRO, R.*\n\nNesse texto, a estratégia empregada para criticar a constante exposição a palavras e expressões automatizadas é o(a):",
+                options: [
+                    { text: "humor gerado pelo uso das estruturas linguísticas que são objeto da reflexão.", correct: true },
+                    { text: "defesa rigorosa das regras tradicionais da gramática normativa.", correct: false },
+                    { text: "apresentação de dados estatísticos sobre o uso de gírias digitais.", correct: false },
+                    { text: "elogio formal ao dinamismo da linguagem corporativa moderna.", correct: false }
+                ]
+            },
+            {
+                question: "Há o hipotrélico. O termo é novo, de impensada origem e ainda sem definição que lhe apanhe em todas as pétalas o significado. Sabe-se, só, que vem do bom português...\n*ROSA, G.*\n\nNesse trecho de uma obra de Guimarães Rosa, depreende-se a predominância de uma das funções da linguagem, identificada como:",
+                options: [
+                    { text: "fática, focada apenas em testar o canal de comunicação com o leitor.", correct: false },
+                    { text: "metalinguística, pois o trecho usa a língua para explicar a própria língua.", correct: true },
+                    { text: "apelativa, buscando convencer o receptor a adotar um novo comportamento.", correct: false },
+                    { text: "emotiva, destacando opiniões estritamente pessoais do autor.", correct: false }
+                ]
+            },
+            {
+                question: "Diz-se, em termos gerais, que é preciso \"falar a mesma língua\"... O ambiente social e o cultural não determinam a língua? Estas questões levam à constatação de que existem níveis de linguagem.\n*VANOYE, F.*\n\nA variedade linguística adequada à situação específica de uso social está expressa em:",
+                options: [
+                    { text: "na fala de uma criança, tentando convencer a mãe: “Mãe, assim não dá para ser feliz! Dá pra liberar minha mesada? Prometo que só vou tirar notão!”.", correct: true },
+                    { text: "num memorando corporativo estrito contendo gírias juvenis informais.", correct: false },
+                    { text: "num artigo científico acadêmico escrito inteiramente com abreviações de internet.", correct: false },
+                    { text: "numa petição jurídica formal redigida em dialeto regional estrito.", correct: false }
+                ]
+            },
+            {
+                question: "**Estojo escolar**\n... O notebook que agora abro é negro e, em matéria de cheiro, é abominável. Cheira vilmente a telefone celular, a cabine de avião... Acho que piorei de estojo e de vida.\n*CONY, C. M.*\n\nNo texto, há marcas da função da linguagem que nele predomina. Essas marcas são responsáveis por colocar em foco o(a):",
+                options: [
+                    { text: "interlocutor, tentando persuadi-lo diretamente a comprar um computador.", correct: false },
+                    { text: "código linguístico, analisando regras gramaticais e sintáticas.", correct: false },
+                    { text: "canal de transmissão da mensagem eletrônica e digital.", correct: false },
+                    { text: "enunciador, buscando expressar sua atitude e subjetividade em relação ao conteúdo.", correct: true }
+                ]
+            },
+            {
+                question: "**Palavras jogadas fora**\nQuando criança, convivia no interior de São Paulo com o curioso verbo pinchar... O rompimento da tradição de uma palavra equivale à sua extinção. A gramática normativa colabora criando preconceitos, mas o fator mais forte que motiva os falantes é associar a palavra a um grupo que julga não ser o seu.\n*VIARO, M. E.*\n\nA discussão empreendida sobre o verbo \"pinchar\" nos traz uma reflexão segundo a qual:",
+                options: [
+                    { text: "O abandono de determinados vocábulos está associado a preconceitos socioculturais.", correct: true },
+                    { text: "As palavras do meio rural sobrevivem independentemente da escola.", correct: false },
+                    { text: "O dicionário oficial impede que qualquer termo arcaico desapareça.", correct: false },
+                    { text: "A fala urbana elimina termos antigos de forma puramente técnica.", correct: false }
+                ]
+            },
+            {
+                question: "No que diz respeito ao uso de recursos expressivos em diferentes linguagens, o cartum produz humor brincando com a:",
+                options: [
+                    { text: "duplo sentido gerado pela ambiguidade entre a imagem visual e o texto verbal.", correct: true },
+                    { text: "transgressão deliberada das regras ortográficas da língua escrita.", correct: false },
+                    { text: "reprodução exata e documental de fatos históricos consagrados.", correct: false },
+                    { text: "formalidade excessiva do discurso científico contemporâneo.", correct: false }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        const startScreen = document.getElementById('start-screen');
+        const questionScreen = document.getElementById('question-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressText = document.getElementById('progress-text');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackMsg = document.getElementById('feedback-msg');
+        const finalScore = document.getElementById('final-score');
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            questionScreen.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            feedbackMsg.textContent = '';
+            nextBtn.classList.add('hidden');
+
+            const q = questions[currentQuestion];
+            progressText.textContent = `Questão ${currentQuestion + 1} de ${questions.length}`;
+            questionText.textContent = q.question;
+
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:bg-indigo-50 hover:border-indigo-300 transition-all font-medium text-slate-700 cursor-pointer";
+                btn.textContent = opt.text;
+                btn.onclick = () => selectOption(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(index, btnElement) {
+            if (answered) return;
+            answered = true;
+
+            const q = questions[currentQuestion];
+            const allButtons = optionsContainer.getElementsByTagName('button');
+
+            if (q.options[index].correct) {
+                score++;
+                btnElement.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-800');
+                feedbackMsg.textContent = "Correto! Excelente raciocínio.";
+                feedbackMsg.className = "text-sm font-semibold text-emerald-600";
+            } else {
+                btnElement.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-800');
+                feedbackMsg.textContent = "Incorreto.";
+                feedbackMsg.className = "text-sm font-semibold text-rose-600";
+
+                // Highlight correct one
+                q.options.forEach((opt, idx) => {
+                    if (opt.correct) {
+                        allButtons[idx].classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
+                    }
+                });
+            }
+
+            Array.from(allButtons).forEach(b => b.disabled = true);
+
+            if (currentQuestion < questions.length - 1) {
+                nextBtn.textContent = "Próxima Questão";
+            } else {
+                nextBtn.textContent = "Ver Resultado";
+            }
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                questionScreen.classList.add('hidden');
+                resultScreen.classList.remove('hidden');
+                finalScore.textContent = `${score} / ${questions.length}`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            resultScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
